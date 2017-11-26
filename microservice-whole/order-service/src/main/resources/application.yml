@@ -1,0 +1,53 @@
+server:
+  port: 8011
+
+debug: true
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/ # 服务注册中心地址
+  instance:
+    preferIpAddress: true
+
+spring:
+  application:
+    name: order-service # 服务名称
+  datasource:
+    dbcp2.validation-query: select 1
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/orderdb?stringtype=unspecified
+    name: orderdb
+    username: pgdbo
+    password: sql
+
+
+mybatis.configuration:
+  map-underscore-to-camel-case: true
+  default-fetch-size: 100
+  default-statement-timeout: 30
+
+
+logging:
+  file: ./target/app.log
+  level:
+    org.springframework: INFO
+    cn.devmgr: TRACE
+
+  
+# To disable/enable Spring Security 
+security:
+  ignored: /rest/**
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      clientId: rs1
+      clientSecret: secret
+      accessTokenUri: http://localhost:8008/authserver/oauth/token
+      userAuthorizationUri: http://localhost:8008/authserver/oauth/authorize
+    resource:
+      userInfoUri: http://localhost:8008/authserver/user/me
+management:
+  security:
+    enabled: false
