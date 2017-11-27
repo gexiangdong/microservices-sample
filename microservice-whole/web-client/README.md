@@ -30,10 +30,11 @@ npm test
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 
-## 创建过程
-# vue init webpack web-client
-# cd web-client
-# npm install
-# npm --save install vue-resource
-
-
+创建过程
+vue init webpack web-client
+cd web-client
+npm install --save vue-resource
+npm install
+打开main.js，加入：
+import VueResource from 'vue-resource'
+Vue.use(VueResource)

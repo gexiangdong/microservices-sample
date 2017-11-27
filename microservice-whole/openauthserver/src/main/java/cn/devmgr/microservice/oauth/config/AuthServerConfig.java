@@ -19,6 +19,11 @@ import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeSe
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.core.Ordered;
 
 
 @Configuration
@@ -57,10 +62,13 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
+        // 注意authorizedGrantTypes 方法，指定授权类型，如果没有password，则必须在此模块提供的页面登录,
+        // 通过跳转回去带有authorization_code，然后获取token
+        // 如果rs1需要密码保护(password模式下密码保护意义不大，authorization_code模式可添加密码保护)，可在
+        // withClient("rs1")后增加.secret(passwordEncoder.encode("secret"))
         clients.inMemory()
             .withClient("rs1")
-            .secret(passwordEncoder.encode("secret"))
-            .authorizedGrantTypes("authorization_code")
+            .authorizedGrantTypes("password","authorization_code", "refresh_token")
             .scopes("user_info")
             .autoApprove(true);
     }
@@ -92,4 +100,20 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         }
         return new DefaultAccessTokenConverter();
     }
+
+/*
+    @Bean
+    public FilterRegistrationBean corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
+    }
+    */
 }
