@@ -52,7 +52,8 @@ export default {
         'username': this.$data.username,
         'password': this.$data.password
       }
-      this.$http.post(postUrl, postBody).then((response) => {
+      var postOptions = {'headers': {'Content-Type': 'application/x-www-form-urlencoded'}}
+      this.$http.post(postUrl, 'grant_type=password&client_id=rs1&username=admin&password=admpwd', postOptions).then((response) => {
         // 响应成功回调
         this.$data.msg = (response.text() + 'ok')
       }, (response) => {
