@@ -4,8 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
+import global from './components/Global'
 
 Vue.use(VueResource)
+Vue.prototype.GLOBAL = global
 
 Vue.config.productionTip = false
 

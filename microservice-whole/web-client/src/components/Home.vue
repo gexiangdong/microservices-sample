@@ -2,7 +2,9 @@
   <div class="hello">
     <h1>Home</h1>
     <h2>{{ msg }}</h2>
+    token: {{ token }}
 
+    <button v-on:click="queryOrder()">查询订单信息</button>
     <ul>
       <li><router-link :to="{ name: 'Login', params: { id: 123 }}" >跳转到Foo(普通链接的例子）</router-link></li>
       <li v-on:click="gotoFoo">跳转到Foo(Javascript 跳转的例子)</li>
@@ -19,7 +21,8 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       username: null,
-      password: null
+      password: null,
+      token: this.GLOBAL.token
     }
   },
   created () {
@@ -44,6 +47,18 @@ export default {
     },
     showMessage () {
       // this.$store.commit('showToast', 'Hello world. hello again, Hello, again and again.')
+    },
+    queryOrder () {
+      // Authorization': 'Bearer ' + token
+      var postOptions = {'headers': {'Authorization': 'Authorization ' + this.GLOBAL.token}}
+      this.$http.get('/rest/orders/2', postOptions).then((response) => {
+        var json = response.data
+        console.log(json)
+        this.$data.msg = json['id']
+      }, (response) => {
+        // 响应错误回调
+        this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())
+      })
     }
   }
 }

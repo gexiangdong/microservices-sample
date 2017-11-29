@@ -51,3 +51,13 @@ security:
 management:
   security:
     enabled: false
+
+# ENDPOINTS CORS CONFIGURATION (EndpointCorsProperties)
+endpoints:
+  cors:
+    allow-credentials: true # Set whether credentials are supported. When not set, credentials are not supported.
+    allowed-headers: '*' # Comma-separated list of headers to allow in a request. '*' allows all headers.
+    allowed-methods: '*' # Comma-separated list of methods to allow. '*' allows all methods.
+    allowed-origins: '*' # Comma-separated list of origins to allow. '*' allows all origins. When not set, CORS support is disabled.
+    max-age: 1800     
+    # exposed-headers: * # Comma-separated list of headers to include in a response.

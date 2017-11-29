@@ -55,6 +55,7 @@ export default {
         var json = response.data
         console.log(json)
         this.$data.msg = json['access_token']
+        this.GLOBAL.token = json['access_token']
       }, (response) => {
         // 响应错误回调
         this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())
