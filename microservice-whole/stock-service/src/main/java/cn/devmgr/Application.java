@@ -1,4 +1,4 @@
-package cn.devmgr.sample.stock;
+package cn.devmgr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

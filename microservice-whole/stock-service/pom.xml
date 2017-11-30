@@ -4,9 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>springcloud</groupId>
-    <artifactId>springcloud-eureka-client-provider</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>springcloud-eureka-client-provider :: 服务提供者</name>
+    <artifactId>stock-service</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+    <name>MicroService Sample - Stock Service</name>
 
     <!-- Spring Boot 启动父依赖 -->
     <parent>
@@ -21,8 +22,28 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
 
-
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
         <dependency>
             <groupId>commons-logging</groupId>
@@ -34,6 +55,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.3.0</version>
         </dependency>
 
     </dependencies>

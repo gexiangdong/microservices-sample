@@ -11,6 +11,7 @@
       <p>Password: {{ password }}</p>
 
       <button v-on:click="login">登录</button>
+      <button v-on:click="loginJwt">JWT 登录</button>
     </form>
     <ul>
       <li><router-link :to="{ name: 'Home', params: { id: 'fromloginpanel' }}" >跳转到Foo(普通链接的例子）</router-link></li>
@@ -47,6 +48,22 @@ export default {
       // spring auth server默认是打开了跨域支持的
       // spring auth server只支持content-type 为form-urlencoded，不支持json
       var postUrl = 'http://localhost:8008/authserver/oauth/token'
+      var postBody = 'grant_type=password&client_id=rs1&username=' + escape(this.$data.username) + '&password=' + escape(this.$data.password)
+      var postOptions = {'headers': {'Content-Type': 'application/x-www-form-urlencoded'}}
+      this.$http.post(postUrl, postBody, postOptions).then((response) => {
+        // 响应成功回调
+        // {"access_token":"96c41aee-a108-4e43-afec-ce7d9f3064be","token_type":"bearer","refresh_token":"dc7cbe78-46e7-428f-875c-3bff3b92ee22","expires_in":43199,"scope":"user_info"}
+        var json = response.data
+        console.log(json)
+        this.$data.msg = json['access_token']
+        this.GLOBAL.token = json['access_token']
+      }, (response) => {
+        // 响应错误回调
+        this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())
+      })
+    },
+    loginJwt () {
+      var postUrl = 'http://localhost:8009/auth/oauth/token'
       var postBody = 'grant_type=password&client_id=rs1&username=' + escape(this.$data.username) + '&password=' + escape(this.$data.password)
       var postOptions = {'headers': {'Content-Type': 'application/x-www-form-urlencoded'}}
       this.$http.post(postUrl, postBody, postOptions).then((response) => {

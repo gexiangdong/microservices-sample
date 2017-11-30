@@ -1,4 +1,4 @@
-package cn.devmgr.microservice;
+package cn.devmgr.microservice.order;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
