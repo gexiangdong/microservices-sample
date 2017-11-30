@@ -20,7 +20,7 @@ public class SecurityUser extends User implements UserDetails, Serializable {
 
 	private Collection<GrantedAuthority> authorities;
 	
-	public SecurityUser(User user, List<String> userAuthorities){
+	public SecurityUser(User user, Collection<String> userAuthorities){
 		this.setId(user.getId());
 		this.setName(user.getName());
 		this.setUsername(user.getUsername());

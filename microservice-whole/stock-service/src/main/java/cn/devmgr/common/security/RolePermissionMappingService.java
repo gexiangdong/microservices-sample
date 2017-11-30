@@ -1,6 +1,6 @@
 package cn.devmgr.common.security;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 用户角色到本模块权限
@@ -8,6 +8,6 @@ import java.util.List;
  */
 public interface RolePermissionMappingService {
 
-    public List<String> getPermissions(String role);
-    public List<String> getPermissions(String[] roles);
+    public Collection<String> getPermissions(String role);
+    public Collection<String> getPermissions(String[] roles);
 }
