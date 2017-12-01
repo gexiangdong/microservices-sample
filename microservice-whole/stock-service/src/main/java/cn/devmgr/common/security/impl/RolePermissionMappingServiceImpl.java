@@ -1,12 +1,14 @@
 package cn.devmgr.common.security.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Collection;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.devmgr.common.security.RolePermissionMappingService;
@@ -21,18 +23,25 @@ import cn.devmgr.common.security.RolePermissionMappingService;
 public class RolePermissionMappingServiceImpl implements RolePermissionMappingService {
     private final Log log = LogFactory.getLog(RolePermissionMappingServiceImpl.class);
     
+    @Autowired
+    PermissionDao permissionDao;
+    
     @Override
     public Collection<String> getPermissions(String role) {
         if(log.isTraceEnabled()) {
             log.trace("query permissions for " + role);
         }
-        //TODO: 持久存储等
-        Collection<String> list = new ArrayList<String>();
-        //add authorize to the list
-        list.add("deleteInventory");
-        list.add("queryInventory");
+
+        Collection<String> list = permissionDao.queryPermissionsByRole(role);
+        if(list == null) {
+            list = new ArrayList<String>();
+        }
+
         //add role to the list
         list.add("ROLE_" + role);
+        if (log.isTraceEnabled()) {
+            log.trace("permission of " + role + " includes: " + Arrays.toString(list.toArray()));
+        }
         return list;
     }
 
