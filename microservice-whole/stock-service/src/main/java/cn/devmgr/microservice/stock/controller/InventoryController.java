@@ -13,7 +13,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin; 
 
 import cn.devmgr.microservice.stock.domain.Inventory;
 
@@ -22,7 +21,10 @@ import cn.devmgr.microservice.stock.domain.Inventory;
 public class InventoryController {
     private final Log log = LogFactory.getLog(InventoryController.class);
 
-    @PreAuthorize("hasAuthority('admin')")
+    /**
+     * @PreAuthorize("hasRole('XYZ')") 和 @PreAuthorize("hasAuthority('ROLE_XYZ')") 等效
+     */
+    @PreAuthorize("hasRole('admin') or hasAuthority('queryInventory')")
     @RequestMapping("/inventories")
     public List<Inventory> listInventories(@RequestParam(value="name", defaultValue="World") String name,
     		Principal principal) {
