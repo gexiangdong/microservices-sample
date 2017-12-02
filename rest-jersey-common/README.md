@@ -1,4 +1,4 @@
-# 教程公共基础库
+# 教程(REST Spring + Jersey)公共基础库
 
 包含整个spring framework, jersey, mybatis等的一些自定义基础类，此仓库内的例子大部分都用到了这个jar。
 

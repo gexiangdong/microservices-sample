@@ -1,14 +1,36 @@
 <template>
   <div class="hello">
     <h1>Home</h1>
-    <h2>{{ msg }}</h2>
-    token: {{ token }}
+    <div v-if="user">
+      <h3>Welcome {{ user.name }}</h3>
+      <div class="token">
+        <h4>Your Token:</h4>
+        <div>{{token}}</div>
+      </div>
+      <ul>
+        <li><a href="javascript:;" v-on:click="queryOrder()">查询订单信息</a></li>
+        <li><a href="javascript:;" v-on:click="queryInventories()">查看商品列表</a></li>
+      </ul>
+    </div>
+    <div v-else>
+      <button v-on:click="gotoLogin">你尚未登录，请登录</button>
+    </div>
+    
+    <div class="inventories" v-if="inventories != null">
+      <h2>商品信息</h2>
+      <div v-for="item in inventories">
+        <div class="item">
+          {{item.name}}
+        </div>
+      </div>
+      
+    </div>
+    
 
-    <button v-on:click="queryOrder()">查询订单信息</button>
-    <button v-on:click="queryInventories()">查看商品列表</button>
+
     <ul>
       <li><router-link :to="{ name: 'Login', params: { id: 123 }}" >Login</router-link></li>
-      <li v-on:click="gotoFoo">跳转到Foo(Javascript 跳转的例子)</li>
+      <li v-on:click="gotoLogin">跳转到Login(Javascript 跳转的例子)</li>
       <li v-on:click="gotoFooAfter2Seconds">跳转到Foo(显示Loading)</li>
       <li v-on:click="showMessage">显示Toast Message</li>
     </ul>
@@ -22,9 +44,9 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      username: null,
-      password: null,
-      token: this.GLOBAL.token
+      token: this.GLOBAL.token,
+      user: this.GLOBAL.user,
+      inventories: null
     }
   },
   created () {
@@ -35,9 +57,9 @@ export default {
     // this.$store.commit('setTab', 'home') // 设置底部高亮菜单为setting
   },
   methods: {
-    gotoFoo () {
-      // JavaScript跳转到foo页面，并传递参数id=457；除了router.push外还可以router.replace
-      this.$router.push({name: 'foo', params: { id: 457 }})
+    gotoLogin () {
+      // JavaScript跳转到Login页面，并传递参数id=457；除了router.push外还可以router.replace
+      this.$router.push({name: 'Login', params: { from: 'home' }})
     },
     gotoHome () {
       this.$router.push({ path: '/' })
@@ -57,7 +79,7 @@ export default {
       this.$http.get('http://localhost:8012/inventories', postOptions).then((response) => {
         var json = response.data
         console.log(json)
-        // this.$data.msg = json['id']
+        this.$data.inventories = json
       }, (response) => {
         // 响应错误回调
         this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())
@@ -81,18 +103,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+h1, h2 {font-weight: normal;}
+ul {list-style-type: none; padding: 0;}
+li {display: inline-block; margin: 0 10px;}
+a { color: #42b983; cursor:pointer;}
+
+div.token{font-size:10px; border:1px solid #DEDEDE; margin: 5px 50px; word-break:break-all; text-align: left;}
+div.token h4{font-size:12px; background-color:#DEDEDE; margin:0px; padding:5px; text-align:left;}
+
+div.inventories{margin: 5px 50px; text-align:left;}
+div.inventories h2{text-align:left;}
 </style>

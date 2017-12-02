@@ -73,6 +73,10 @@ export default {
         console.log(json)
         this.$data.msg = json['access_token']
         this.GLOBAL.token = json['access_token']
+        this.GLOBAL.user = {name: json['name'], id: json['id']}
+
+        // 自动返回首页
+        this.$router.push({name: 'Home', params: { from: 'login' }})
       }, (response) => {
         // 响应错误回调
         this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())

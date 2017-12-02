@@ -17,6 +17,11 @@
     </parent>
 
     <dependencies>
+        <dependency>
+            <groupId>cn.devmgr.common</groupId>
+            <artifactId>rest-common</artifactId>
+            <version>1.0</version>
+        </dependency>
         <!-- Spring Cloud Netflix Eureka Client 依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

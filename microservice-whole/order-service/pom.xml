@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>cn.devmgr.common</groupId>
-			<artifactId>framework-base</artifactId>
+			<artifactId>rest-jersey-common</artifactId>
 			<version>1.0</version>
 		</dependency> 
 
