@@ -75,7 +75,6 @@ export default {
     queryInventories () {
       // Authorization': 'Bearer ' + token
       var postOptions = {'headers': {'Authorization': 'Bearer ' + this.GLOBAL.token}}
-      console.log(postOptions)
       this.$http.get('http://localhost:8012/inventories', postOptions).then((response) => {
         var json = response.data
         console.log(json)
@@ -88,7 +87,7 @@ export default {
     queryOrder () {
       // Authorization': 'Bearer ' + token
       var postOptions = {'headers': {'Authorization': 'Bearer ' + this.GLOBAL.token}}
-      this.$http.get('/rest/orders/2', postOptions).then((response) => {
+      this.$http.get('http://localhost:8011/rest/orders/2', postOptions).then((response) => {
         var json = response.data
         console.log(json)
         this.$data.msg = json['id']
