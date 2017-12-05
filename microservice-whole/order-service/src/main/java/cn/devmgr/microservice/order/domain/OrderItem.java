@@ -18,8 +18,15 @@ public class OrderItem  implements Serializable{
     @DecimalMax(value = "5", message = "购买数量不可以多于5个")
 	private int num;
     
+	/**
+	 * 售价
+	 */
     @Null
-	private int jifen;
+	private double price;
+    
+    /**
+     * 供货价，采购价，进价
+     */
     @Null
 	private double supplyPrice;
 
@@ -42,11 +49,11 @@ public class OrderItem  implements Serializable{
 	public void setNum(int num) {
 		this.num = num;
 	}
-	public int getJifen() {
-		return jifen;
+	public double getPrice() {
+		return price;
 	}
-	public void setJifen(int jifen) {
-		this.jifen = jifen;
+	public void setPrice(double price) {
+		this.price = price;
 	}
 	public double getSupplyPrice() {
 		return supplyPrice;

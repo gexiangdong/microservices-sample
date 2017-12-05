@@ -6,7 +6,7 @@
 	<groupId>cn.devmgr.microservice</groupId>
     <artifactId>api-gateway-zuul</artifactId>
     <name>api-gateway-zuul</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 
 	<description>spring boot zuul sample.</description>

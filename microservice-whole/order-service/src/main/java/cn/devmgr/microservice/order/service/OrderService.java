@@ -20,7 +20,7 @@ import cn.devmgr.microservice.order.domain.ConsigneeAddress;
 import cn.devmgr.microservice.order.domain.Order;
 import cn.devmgr.microservice.order.domain.OrderItem;
 
-// 也可以使用JSR-107的cache注解；此处使用的是spring cache annotation
+// 此处使用的是spring cache annotation，也可以使用JSR-107的cache注解；
 // CacheConfig设置了cacheNames后，此类的方法中的CacheEvict/CachePut/Cacheable等则不在需要设置名字，仅仅设置key（自动计算key）即可
 @CacheConfig(cacheNames="order")
 @Service
@@ -56,7 +56,7 @@ public class OrderService {
 			item.setGiftId("EL" +  (rnd.nextInt() + 1000) % 1000);
 			item.setGiftName("苹果" + (rnd.nextInt(20) + 1) + "代");
 			item.setNum(rnd.nextInt(10) + 1);
-			item.setJifen(rnd.nextInt(1000));
+			item.setPrice(rnd.nextInt(1000));
 			item.setSupplyPrice(rnd.nextDouble() * 100);
 			list.add(item);
 		}

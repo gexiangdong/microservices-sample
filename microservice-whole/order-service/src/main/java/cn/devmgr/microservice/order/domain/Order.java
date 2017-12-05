@@ -48,15 +48,15 @@ public class Order implements Serializable{
 		this.orderItems = orderItems;
 	}
 	
-	public int getTotalJifen(){
+	public double getAmount(){
 		if(this.orderItems == null){
 			throw new RuntimeException("no orderItems found in order #" + this.id);
 		}
-		int jf = 0;
+		double amount = 0;
 		for(OrderItem item : this.orderItems){
-			jf += item.getJifen() * item.getNum();
+		    amount += item.getPrice() * item.getNum();
 		}
-		return jf;
+		return amount;
 	}
 	public ConsigneeAddress getConsigneeAddress() {
 		return consigneeAddress;

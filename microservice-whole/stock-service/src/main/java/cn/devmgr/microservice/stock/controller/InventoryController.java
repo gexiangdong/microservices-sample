@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.security.Principal;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.apache.commons.logging.Log;
@@ -18,6 +19,7 @@ import cn.devmgr.microservice.stock.domain.Inventory;
 
 
 @RestController
+@RequestMapping("/inventories")
 public class InventoryController {
     private final Log log = LogFactory.getLog(InventoryController.class);
 
@@ -25,7 +27,7 @@ public class InventoryController {
      * @PreAuthorize("hasRole('XYZ')") 和 @PreAuthorize("hasAuthority('ROLE_XYZ')") 等效
      */
     @PreAuthorize("hasRole('admin') or hasAuthority('queryInventory')")
-    @RequestMapping("/inventories")
+    @RequestMapping(value="/", method = RequestMethod.GET)
     public List<Inventory> listInventories(@RequestParam(value="name", defaultValue="World") String name,
     		Principal principal) {
         List<Inventory> list = new ArrayList<Inventory>();
@@ -39,6 +41,7 @@ public class InventoryController {
             if(principal == null) {
                 log.trace("principal is null");
             }
+            @SuppressWarnings("unchecked")
             Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
             for(SimpleGrantedAuthority sga : authorities) {
                 log.trace("SimpleGrantedAuthority: " + sga.getAuthority());
