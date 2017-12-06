@@ -16,19 +16,22 @@
       <button v-on:click="gotoLogin">你尚未登录，请登录</button>
     </div>
     
-    <div class="inventories" v-if="inventories != null">
+    <div class="data" v-if="inventories != null && tabIndex==1">
       <h2>商品信息</h2>
       <div v-for="item in inventories">
         <div class="item">
           {{item.name}}
         </div>
       </div>
-      
     </div>
-    
+    <div class="data" v-if="order != null && tabIndex==2">
+      <h2>订单信息</h2>
+      <p><span>ID:</span>{{ order.id }}</p>
+      <p><span>地址:</span>{{ order.consigneeAddress.province }} {{ order.consigneeAddress.city }} {{ order.consigneeAddress.district }} {{ order.consigneeAddress.address }}</p>
+    </div>
 
 
-    <ul>
+    <ul class="bottomLinks">
       <li><router-link :to="{ name: 'Login', params: { id: 123 }}" >Login</router-link></li>
       <li v-on:click="gotoLogin">跳转到Login(Javascript 跳转的例子)</li>
       <li v-on:click="gotoFooAfter2Seconds">跳转到Foo(显示Loading)</li>
@@ -46,7 +49,9 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       token: this.GLOBAL.token,
       user: this.GLOBAL.user,
-      inventories: null
+      inventories: null,
+      order: null,
+      tabIndex: 1
     }
   },
   created () {
@@ -79,6 +84,7 @@ export default {
         var json = response.data
         console.log(json)
         this.$data.inventories = json
+        this.$data.tabIndex = 1
       }, (response) => {
         // 响应错误回调
         this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())
@@ -90,7 +96,8 @@ export default {
       this.$http.get('http://localhost:8011/orderservice/orders/2', postOptions).then((response) => {
         var json = response.data
         console.log(json)
-        this.$data.msg = json['id']
+        this.$data.order = json
+        this.$data.tabIndex = 2
       }, (response) => {
         // 响应错误回调
         this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())
@@ -110,6 +117,8 @@ a { color: #42b983; cursor:pointer;}
 div.token{font-size:10px; border:1px solid #DEDEDE; margin: 5px 50px; word-break:break-all; text-align: left;}
 div.token h4{font-size:12px; background-color:#DEDEDE; margin:0px; padding:5px; text-align:left;}
 
-div.inventories{margin: 5px 50px; text-align:left;}
-div.inventories h2{text-align:left;}
+div.data{margin: 5px 50px; text-align:left;}
+div.data h2{text-align:left;}
+
+.bottomLinks{margin-top:50px;}
 </style>

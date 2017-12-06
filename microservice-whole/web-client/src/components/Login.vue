@@ -10,7 +10,6 @@
       <input v-model="password" type="password" placeholder="your password">
       <p>Password: {{ password }}</p>
 
-      <button v-on:click="login">登录</button>
       <button v-on:click="loginJwt">JWT 登录</button>
     </form>
     <ul>
@@ -40,28 +39,6 @@ export default {
     // this.$store.commit('setTab', 'home') // 设置底部高亮菜单为setting
   },
   methods: {
-    login () {
-      // alert(this.$data.username + '--' + this.$data.password)
-      // this.$data.username = 'helloworld'
-      // 注意：下面的代码可能会存在跨域请求问题，如果调试不通，浏览器跟踪请求方法一直是OPTIONS，则应该
-      // 是跨域请求问题，需要检查对应后端URL是否允许跨域请求
-      // spring auth server默认是打开了跨域支持的
-      // spring auth server只支持content-type 为form-urlencoded，不支持json
-      var postUrl = 'http://localhost:8008/authserver/oauth/token'
-      var postBody = 'grant_type=password&client_id=rs1&username=' + escape(this.$data.username) + '&password=' + escape(this.$data.password)
-      var postOptions = {'headers': {'Content-Type': 'application/x-www-form-urlencoded'}}
-      this.$http.post(postUrl, postBody, postOptions).then((response) => {
-        // 响应成功回调
-        // {"access_token":"96c41aee-a108-4e43-afec-ce7d9f3064be","token_type":"bearer","refresh_token":"dc7cbe78-46e7-428f-875c-3bff3b92ee22","expires_in":43199,"scope":"user_info"}
-        var json = response.data
-        console.log(json)
-        this.$data.msg = json['access_token']
-        this.GLOBAL.token = json['access_token']
-      }, (response) => {
-        // 响应错误回调
-        this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())
-      })
-    },
     loginJwt () {
       var postUrl = 'http://localhost:8009/auth/oauth/token'
       var postBody = 'grant_type=password&client_id=rs1&username=' + escape(this.$data.username) + '&password=' + escape(this.$data.password)
@@ -75,6 +52,7 @@ export default {
         this.GLOBAL.token = json['access_token']
         this.GLOBAL.user = {name: json['name'], id: json['id']}
 
+        // TODO: 设置timeout，处理token过期自动刷新
         // 自动返回首页
         this.$router.push({name: 'Home', params: { from: 'login' }})
       }, (response) => {
