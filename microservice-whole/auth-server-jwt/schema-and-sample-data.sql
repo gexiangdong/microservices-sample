@@ -68,20 +68,23 @@ create table users(
 );
 
 create table groups (
-    id serial primary key,
+    id varchar(20) primary key,
     group_name varchar(50) not null
 );
 
+/**
+#对组进行授权放到了各个微服务模块内，不再需要这个表
 create table group_authorities (
     group_id int not null,
     authority varchar(50) not null,
     constraint fk_group_authorities_group foreign key(group_id) references groups(id)
 );
+*/
 
 create table group_members (
     id serial primary key,
     user_id int not null,
-    group_id int not null,
+    group_id varchar(20) not null,
     constraint fk_group_members_group foreign key(group_id) references groups(id),
     constraint fk_group_members_user foreign key(user_id) references users(id)
 );
@@ -93,14 +96,16 @@ insert into oauth_client_details
             authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, 
             refresh_token_validity, additional_information, autoapprove) 
 values(
-    'rs1', 'oauth2-resource', 'read, trust', 'authorization_code,refresh_token',
+    'rs1', 'oauth2-resource', 'read, trust', 'password,refresh_token',
     'http://127.0.0.1?key=rs1', 'ROLE_CLIENT', '', null,
     null, '{}', 'read,trust'
 );
 /** 用户 用户名 admin, 密码admpwd */
 insert into users(username, name, password) values('admin', 'System Administrator', 'admpwd');
-insert into groups(group_name) values('Admin');
-insert into group_authorities (group_id, authority) select id, 'all' from groups where group_name='Admin';
-insert into group_authorities (group_id, authority) select id, 'everything' from groups where group_name='Admin';
-insert into group_members(user_id, group_id) select g.id, u.id from groups g, users u where u.username='admin' and g.group_name='Admin';
+insert into users(username, name, password) values('asales', '销售员甲', 'thepwd');
+insert into groups(id, group_name) values('admins', '管理员');
+insert into groups(id, group_name) values('managers', '经理组');
+insert into groups(id, group_name) values('sales', '销售组');
+insert into group_members(user_id, group_id) select id, 'admins' from users u where u.username='admin';
+insert into group_members(user_id, group_id) select id, 'sales' from users u where u.username='asales';
     

@@ -1,5 +1,6 @@
 server:
   port: 8012 # 服务端口
+  contextPath: /stockservice
 
 debug: true
 

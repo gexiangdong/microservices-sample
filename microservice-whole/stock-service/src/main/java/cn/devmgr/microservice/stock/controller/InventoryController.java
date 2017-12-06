@@ -24,10 +24,11 @@ public class InventoryController {
     private final Log log = LogFactory.getLog(InventoryController.class);
 
     /**
-     * @PreAuthorize("hasRole('XYZ')") 和 @PreAuthorize("hasAuthority('ROLE_XYZ')") 等效
+     * @PreAuthorize("hasRole('XYZ')") 和 @PreAuthorize("hasAuthority('ROLE_XYZ')") 等效；
+     * 注意如果方法访问URL和类相同, RequestMapping不写value属性，如果写了value="/"反而会访问不到
      */
-    @PreAuthorize("hasRole('admin') or hasAuthority('queryInventory')")
-    @RequestMapping(value="/", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('admins') or hasAuthority('queryInventory')")
+    @RequestMapping(method = RequestMethod.GET)
     public List<Inventory> listInventories(@RequestParam(value="name", defaultValue="World") String name,
     		Principal principal) {
         List<Inventory> list = new ArrayList<Inventory>();

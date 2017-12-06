@@ -15,7 +15,7 @@ import cn.devmgr.microservice.order.domain.Order;
 import cn.devmgr.microservice.order.service.OrderService;
 
 
-//@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders="Authorization")
+@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders="Authorization")
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -26,15 +26,9 @@ public class OrderController {
     
     
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public Order queryOrder(@PathVariable("id")  int id, SecurityContext sc){
+    public Order queryOrder(@PathVariable("id")  int id){
         Order order = orderService.getOneOrder(1);
-        if(sc != null) {
-            log.trace("UserPrincipal: " + sc.getAuthentication());
-            if(sc.getAuthentication() != null) {
-                log.trace("Name:" + sc.getAuthentication().getName());
-            }
-            
-        }
+
         return order;
     }
     

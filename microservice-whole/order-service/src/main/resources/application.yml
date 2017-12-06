@@ -1,5 +1,6 @@
 server:
   port: 8011
+  contextPath: /orderservice
 
 debug: true
   

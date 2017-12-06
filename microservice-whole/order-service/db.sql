@@ -27,3 +27,37 @@ insert into order_detail(orderId, giftId, giftName, num, price, supplyPrice)
     values(1, 'EL1122', 'iphone手机模型', 1, 10000, 122.80);
 insert into order_detail(orderId, giftId, giftName, num, price, supplyPrice)
     values(1, 'EL3457', 'USB充电插座', 1, 150, 12.80);
+
+
+
+/** ROLES and Permissions **/
+
+/** 权限表*/
+create table auth_permission(
+    permission  varchar(40) primary key,
+    name varchar(50) not null,
+    ord int not null
+);
+
+create table auth_role_permission(
+    role varchar(40) not null,
+    permission varchar(40) not null,
+    primary key(role, permission)
+);
+
+/***---- sample data -----**/
+insert into auth_permission(permission, name, ord) values ('queryOrder', '查询订单', 1);
+insert into auth_permission(permission, name, ord) values ('modifyOrder', '修改订单', 2);
+insert into auth_permission(permission, name, ord) values ('orderReport', '查看订单统计表', 3);
+
+/*#系统管理员组*/
+insert into auth_role_permission(role, permission) values('admins', 'queryOrder');
+insert into auth_role_permission(role, permission) values('admins', 'modifyOrder');
+insert into auth_role_permission(role, permission) values('admins', 'orderReport');
+/*#销售组  */
+insert into auth_role_permission(role, permission) values('sales', 'queryOrder');
+insert into auth_role_permission(role, permission) values('sales', 'orderReport');
+/*#经理组*/
+insert into auth_role_permission(role, permission) values('managers', 'queryOrder');
+insert into auth_role_permission(role, permission) values('managers', 'modifyOrder');
+insert into auth_role_permission(role, permission) values('managers', 'orderReport');
