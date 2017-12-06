@@ -40,10 +40,9 @@ export default {
   },
   methods: {
     loginJwt () {
-      var postUrl = 'http://localhost:8009/auth/oauth/token'
       var postBody = 'grant_type=password&client_id=rs1&username=' + escape(this.$data.username) + '&password=' + escape(this.$data.password)
       var postOptions = {'headers': {'Content-Type': 'application/x-www-form-urlencoded'}}
-      this.$http.post(postUrl, postBody, postOptions).then((response) => {
+      this.$http.post(this.GLOBAL.AUTH_URL, postBody, postOptions).then((response) => {
         // 响应成功回调
         // {"access_token":"96c41aee-a108-4e43-afec-ce7d9f3064be","token_type":"bearer","refresh_token":"dc7cbe78-46e7-428f-875c-3bff3b92ee22","expires_in":43199,"scope":"user_info"}
         var json = response.data
