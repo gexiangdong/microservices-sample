@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>Home</h1>
     <div v-if="user">
-      <h3>Welcome {{ user.name }}</h3>
+      <h3>Welcome {{ user.name }} #{{ user.id }}</h3>
       <div class="token">
         <h4>Your Token:</h4>
         <div>{{token}}</div>
@@ -47,8 +47,8 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      token: this.GLOBAL.token,
-      user: this.GLOBAL.user,
+      token: this.$auth.getToken(),
+      user: this.$auth.getUser(),
       inventories: null,
       order: null,
       tabIndex: 1
@@ -79,7 +79,7 @@ export default {
     },
     queryInventories () {
       // Authorization': 'Bearer ' + token
-      var postOptions = {'headers': {'Authorization': 'Bearer ' + this.GLOBAL.token}}
+      var postOptions = {'headers': {'Authorization': 'Bearer ' + this.$auth.getToken()}}
       this.$http.get('http://localhost:8012/stockservice/inventories', postOptions).then((response) => {
         var json = response.data
         console.log(json)
@@ -92,7 +92,8 @@ export default {
     },
     queryOrder () {
       // Authorization': 'Bearer ' + token
-      var postOptions = {'headers': {'Authorization': 'Bearer ' + this.GLOBAL.token}}
+      var postOptions = {'headers': {'Authorization': 'Bearer ' + this.$auth.getToken()}}
+      console.log(postOptions)
       this.$http.get('http://localhost:8011/orderservice/orders/2', postOptions).then((response) => {
         var json = response.data
         console.log(json)

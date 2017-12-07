@@ -1,5 +1,6 @@
 package cn.devmgr.microservice.stock;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @EnableEurekaClient
+@MapperScan("cn.devmgr.microservice.stock.dao")
 @ComponentScan(basePackages= {"cn.devmgr.common.security", "cn.devmgr.microservice.stock"})
 public class Application {
 

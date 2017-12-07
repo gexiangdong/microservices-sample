@@ -4,10 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
-import global from './components/Global'
+import Auth from './Auth.js'
 
 Vue.use(VueResource)
-Vue.prototype.GLOBAL = global
+Vue.use(Auth)
 
 Vue.config.productionTip = false
 

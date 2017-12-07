@@ -26,6 +26,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import cn.devmgr.microservice.oauth.jwt.service.SecurityUserDetailService;
 
 @Configuration
 @EnableAuthorizationServer
@@ -34,6 +35,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private SecurityUserDetailService userDetailsService;
 
     @Autowired
     private DataSource dataSource;
@@ -77,14 +80,15 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         // use default token.        
 //        endpoints.authenticationManager(authenticationManager)
-//        		 .tokenStore(tokenStore())
-//        		 .accessTokenConverter(accessTokenConverter());
+//               .tokenStore(tokenStore())
+//               .accessTokenConverter(accessTokenConverter());
 
     	TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
         endpoints.tokenStore(tokenStore())
 		        .tokenEnhancer(tokenEnhancerChain)
-		        .authenticationManager(authenticationManager);
+		        .authenticationManager(authenticationManager)
+                .userDetailsService(userDetailsService);
 
     }
 
