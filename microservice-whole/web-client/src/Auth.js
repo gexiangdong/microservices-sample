@@ -57,7 +57,7 @@ function parseToken (tokenJson) {
   user = {name: tokenJson['name'], id: tokenJson['user_id']}
   console.log('user is ' + user.name + ', global: ' + vm.$auth)
   // 设置timeout，处理token过期自动刷新
-  var seconds = tokenJson['expires_in'] - 600
+  var seconds = tokenJson['expires_in'] - 300
   setRefreshTimer(seconds * 1000)
   console.log('刷新token设置：' + seconds + '秒后')
 }
@@ -80,16 +80,18 @@ Auth.install = function (Vue, options) {
     getToken
   }
 
-  // vm.http.interceptors.push((request, next) => {
-  //   if (token != null) {
-  //     request.headers.Authorization = 'Bearer ' + token
-  //     console.log(request.headers)
-  //   }
-  //   next((response) => {
-  //     console.log(response.status)
-  //     return response
-  //   })
-  // })
+  // 设置vue-resource全局拦截器； 如果有token，则传递token给服务端
+  vm.http.interceptors.push((request, next) => {
+    if (token != null) {
+      request.headers.set('Authorization', 'Bearer ' + token)
+      console.log('set headers Authorization: ' + token)
+      console.log(request.headers)
+    }
+    next((response) => {
+      console.log(response.status)
+      return response
+    })
+  })
 }
 
 export default Auth

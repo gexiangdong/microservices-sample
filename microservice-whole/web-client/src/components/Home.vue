@@ -78,9 +78,9 @@ export default {
       // this.$store.commit('showToast', 'Hello world. hello again, Hello, again and again.')
     },
     queryInventories () {
-      // Authorization': 'Bearer ' + token
-      var postOptions = {'headers': {'Authorization': 'Bearer ' + this.$auth.getToken()}}
-      this.$http.get('http://localhost:8012/stockservice/inventories', postOptions).then((response) => {
+      // Authorization': 'Bearer ' + token， Auth模块拦截器内设置Authorization头了，这里不用设了
+      // var postOptions = {'headers': {'Authorization': 'Bearer ' + this.$auth.getToken()}}
+      this.$http.get('http://localhost:8012/stockservice/inventories').then((response) => {
         var json = response.data
         console.log(json)
         this.$data.inventories = json
@@ -92,9 +92,8 @@ export default {
     },
     queryOrder () {
       // Authorization': 'Bearer ' + token
-      var postOptions = {'headers': {'Authorization': 'Bearer ' + this.$auth.getToken()}}
-      console.log(postOptions)
-      this.$http.get('http://localhost:8011/orderservice/orders/2', postOptions).then((response) => {
+      // var postOptions = {'headers': {'Authorization': 'Bearer ' + this.$auth.getToken()}}
+      this.$http.get('http://localhost:8011/orderservice/orders/2').then((response) => {
         var json = response.data
         console.log(json)
         this.$data.order = json
