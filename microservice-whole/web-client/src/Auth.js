@@ -1,7 +1,5 @@
 /** OpenAuth JWT client **/
-let AUTH_URL = 'http://localhost:8009/auth/oauth/token'
-let CLIENT_ID = 'rs1'
-
+var authUrl, clientId, clientSecret
 var token = null
 var refreshToken = null
 var user
@@ -15,9 +13,9 @@ function setRefreshTimer (seconds) {
   refreshTimer = window.setTimeout(function () {
     // 刷新token的代码
     console.log('将要开始刷新Token, old token=' + token)
-    var postBody = 'refresh_token=' + escape(refreshToken) + '&grant_type=refresh_token&client_id=' + CLIENT_ID
+    var postBody = 'refresh_token=' + escape(refreshToken) + '&grant_type=refresh_token&client_id=' + clientId + '&client_secret=' + clientSecret
     var postOptions = {'headers': {'Content-Type': 'application/x-www-form-urlencoded'}}
-    vm.http.post(AUTH_URL, postBody, postOptions).then((response) => {
+    vm.http.post(authUrl, postBody, postOptions).then((response) => {
       // 获取到token
       var json = response.data
       parseToken(json)
@@ -34,9 +32,9 @@ function setRefreshTimer (seconds) {
 
 function login (username, password, successCallback, errorCallback) {
   // login
-  var postBody = 'grant_type=password&client_id=' + CLIENT_ID + '&username=' + escape(username) + '&password=' + escape(password)
+  var postBody = 'grant_type=password&client_id=' + clientId + '&client_secret=' + clientSecret + '&username=' + escape(username) + '&password=' + escape(password)
   var postOptions = {'headers': {'Content-Type': 'application/x-www-form-urlencoded'}}
-  vm.http.post(AUTH_URL, postBody, postOptions).then((response) => {
+  vm.http.post(authUrl, postBody, postOptions).then((response) => {
     // 响应成功回调
     // {"access_token":"96c41aee-a108-4e43-afec-ce7d9f3064be","token_type":"bearer","refresh_token":"dc7cbe78-46e7-428f-875c-3bff3b92ee22","expires_in":43199,"scope":"user_info"}
     var json = response.data
@@ -74,6 +72,17 @@ const Auth = {}
 Auth.install = function (Vue, options) {
   console.log('Auth plug-in was called.')
   vm = Vue
+  authUrl = options.tokenUrl
+  clientId = options.clientId
+  if (options.clientSecret) {
+    clientSecret = options.clientSecret
+  } else {
+    clientSecret = ''
+  }
+  if (authUrl == null) {
+    console.error('Plugin Auth: options.tokenUrl is required.')
+  }
+
   Vue.prototype.$auth = {
     login,
     getUser,

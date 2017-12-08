@@ -1,16 +1,19 @@
 server:
     port: 8001
-    context-path: /route/
+    context-path: /
 
 
 zuul:
   routes:
     oauth:
-      path: /oauth/**
-      url: http://192.168.1.9/temp/
-    user:
-      path: /u/**
-      url: http://192.168.1.9/test/
+      path: /auth/**
+      url: http://localhost:8008/auth/
+    stockservice:
+      path: /stockservice/**
+      url: http://localhost:8011/stockservice/
+    orderservice:
+      path: /orderservice/**
+      url: http://localhost:8012/orderservice/
 
 
 security:
@@ -19,7 +22,7 @@ security:
   oauth2:
     client:
       clientId: rs1
-      clientSecret: secret
+      clientSecret: 
       accessTokenUri: http://localhost:8081/authserver/oauth/token
       userAuthorizationUri: http://localhost:8081/authserver/oauth/authorize
     resource:

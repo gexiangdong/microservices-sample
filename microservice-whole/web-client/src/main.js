@@ -7,7 +7,7 @@ import VueResource from 'vue-resource'
 import Auth from './Auth.js'
 
 Vue.use(VueResource)
-Vue.use(Auth)
+Vue.use(Auth, {tokenUrl: 'http://localhost:8009/auth/oauth/token', clientId: 'rs1', clientSecret: ''})
 
 Vue.config.productionTip = false
 

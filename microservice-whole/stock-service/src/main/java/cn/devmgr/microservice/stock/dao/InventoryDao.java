@@ -12,6 +12,6 @@ public interface InventoryDao {
     @Select("select * from inventory where id=#{id}")
     public Inventory getInventoryById(@Param(value = "id") int id);
 
-    @Select("select * from innventory")
+    @Select("select * from inventory")
     public List<Inventory> queryInventories();
 }

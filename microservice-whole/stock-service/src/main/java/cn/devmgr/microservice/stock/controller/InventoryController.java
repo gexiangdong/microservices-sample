@@ -1,7 +1,6 @@
 package cn.devmgr.microservice.stock.controller;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.security.Principal;
 
@@ -11,17 +10,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import cn.devmgr.microservice.stock.domain.Inventory;
+import cn.devmgr.microservice.stock.service.InventoryService;
 
 
 @RestController
 @RequestMapping("/inventories")
 public class InventoryController {
     private final Log log = LogFactory.getLog(InventoryController.class);
+    
+    @Autowired
+    private InventoryService inventoryService;
+    
 
     /**
      * @PreAuthorize("hasRole('XYZ')") 和 @PreAuthorize("hasAuthority('ROLE_XYZ')") 等效；
@@ -31,13 +36,11 @@ public class InventoryController {
     @RequestMapping(method = RequestMethod.GET)
     public List<Inventory> listInventories(@RequestParam(value="name", defaultValue="World") String name,
     		Principal principal) {
-        List<Inventory> list = new ArrayList<Inventory>();
-        for(int i=0; i<5; i++){
-            	Inventory inventory = new Inventory();
-            	inventory.setId(i * 10);
-            	inventory.setName("Inventory #" + i + (principal == null ? " NULL" : principal.getName()));
-            	list.add(inventory);
+        List<Inventory> list = inventoryService.getAllInventories();
+        if(log.isTraceEnabled()) {
+            log.trace("query db return " + (list == null ? "NULL" : list.size() + " records."));
         }
+        
         if(log.isTraceEnabled()) {
             if(principal == null) {
                 log.trace("principal is null");

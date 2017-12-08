@@ -25,3 +25,30 @@ insert into auth_role_permission(role, permission) values('admins', 'inventoryRe
 /*#销售组	*/
 insert into auth_role_permission(role, permission) values('sales', 'queryInventory');
 insert into auth_role_permission(role, permission) values('sales', 'inventoryReport');
+
+
+/** -----------------------------------------------------  **/
+create table inventory(
+	id serial primary key,
+	name varchar(50) not null,
+	price real not null,
+	logo varchar(100) not null,
+	pictures varchar(100)[] null,
+	status int not null
+);
+
+create table warehouse(
+	id serial primary key,
+	name varchar(30) not null,
+	type int not null
+);
+
+create table stock(
+	warehouseId int not null,
+	inventoryId int not null,
+	number int not null
+);
+
+insert into inventory (name, price, logo, pictures, status) values('iPhone X', 8999, 'iphon1.jpg', '{"iphone10.jpg", "iphone20.jpg"}', 0);
+insert into inventory (name, price, logo, pictures, status) values('Mac Book Pro', 18999, 'macpro.jpg', '{"macpro1.jpg", "macpro2.jpg", "macpro3.jpg"}', 0);
+

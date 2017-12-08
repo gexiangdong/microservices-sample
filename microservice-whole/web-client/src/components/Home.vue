@@ -24,10 +24,15 @@
         </div>
       </div>
     </div>
-    <div class="data" v-if="order != null && tabIndex==2">
+    <div class="data" v-if="tabIndex==2">
       <h2>订单信息</h2>
-      <p><span>ID:</span>{{ order.id }}</p>
-      <p><span>地址:</span>{{ order.consigneeAddress.province }} {{ order.consigneeAddress.city }} {{ order.consigneeAddress.district }} {{ order.consigneeAddress.address }}</p>
+      <div v-if="order != null">
+        <p><span>ID:</span>{{ order.id }}</p>
+        <p><span>地址:</span>{{ order.consigneeAddress.province }} {{ order.consigneeAddress.city }} {{ order.consigneeAddress.district }} {{ order.consigneeAddress.address }}</p>
+      </div>
+      <div class="nodata" v-else>
+        {{ orderMsg }}
+      </div>
     </div>
 
 
@@ -51,6 +56,7 @@ export default {
       user: this.$auth.getUser(),
       inventories: null,
       order: null,
+      orderMsg: '',
       tabIndex: 1
     }
   },
@@ -91,8 +97,6 @@ export default {
       })
     },
     queryOrder () {
-      // Authorization': 'Bearer ' + token
-      // var postOptions = {'headers': {'Authorization': 'Bearer ' + this.$auth.getToken()}}
       this.$http.get('http://localhost:8011/orderservice/orders/2').then((response) => {
         var json = response.data
         console.log(json)
@@ -100,7 +104,10 @@ export default {
         this.$data.tabIndex = 2
       }, (response) => {
         // 响应错误回调
-        this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())
+        console.log('读取订单信息失败')
+        this.$data.tabIndex = 2
+        this.$data.order = null
+        this.$data.orderMsg = '读取服务器信息失败。' + response.status + ' --- ' + response.body + '---' + response.text()
       })
     }
   }
