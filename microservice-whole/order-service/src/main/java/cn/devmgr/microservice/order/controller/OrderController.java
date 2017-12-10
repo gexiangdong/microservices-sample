@@ -15,7 +15,7 @@ import cn.devmgr.microservice.order.domain.Order;
 import cn.devmgr.microservice.order.service.OrderService;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders="Authorization")
+@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders= {"Authorization", "Content-Type"})
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -32,18 +32,13 @@ public class OrderController {
         return order;
     }
     
-    @RequestMapping(value="/", method = RequestMethod.POST)
-    public Order createOrder(@RequestBody Order order, SecurityContext sc){
+    @RequestMapping(method = RequestMethod.POST)
+    public Order createOrder(@RequestBody Order order){
         if(log.isTraceEnabled()) {
             log.trace("order=" + order + "; " + order.getOrderItems());
         }
-        if(sc != null) {
-            log.trace("UserPrincipal: " + sc.getAuthentication());
-            if(sc.getAuthentication() != null) {
-                log.trace("Name:" + sc.getAuthentication().getName());
-            }
-            
-        }
+       
+        orderService.createNewOrder(order);
         return order;
     }
 }

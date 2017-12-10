@@ -22,6 +22,9 @@ public class InventoryService {
     }
     
     public List<Inventory> getAllInventories(){
+        if(log.isTraceEnabled()) {
+            log.trace("getAllInventories() was called.");
+        }
         return inventoryDao.queryInventories();
     }
 }

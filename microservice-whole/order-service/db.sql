@@ -13,8 +13,8 @@ create table order_main(
 create table order_detail(
     id serial primary key,
     orderId int not null,
-    giftId varchar(10) not null,
-    giftName varchar(100) not null,
+    inventoryId int not null,
+    inventoryName varchar(100) not null,
     num int not null,
     price float not null,
     supplyPrice float not null
@@ -23,10 +23,10 @@ create table order_detail(
 
 insert into order_main(orderDate, consignee, phone, province, city, district, address, status)
     values('2017/4/28 12:13:14', '郝尤乾', '13501234567', '上海', '上海', '徐汇', '漕宝路22222号', 0);
-insert into order_detail(orderId, giftId, giftName, num, price, supplyPrice)
-    values(1, 'EL1122', 'iphone手机模型', 1, 10000, 122.80);
-insert into order_detail(orderId, giftId, giftName, num, price, supplyPrice)
-    values(1, 'EL3457', 'USB充电插座', 1, 150, 12.80);
+insert into order_detail(orderId, inventoryId, inventoryName, num, price, supplyPrice)
+    values(1, 12, 'iphone手机模型', 1, 10000, 122.80);
+insert into order_detail(orderId, inventoryId, inventoryName, num, price, supplyPrice)
+    values(1, 13, 'USB充电插座', 1, 150, 12.80);
 
 
 

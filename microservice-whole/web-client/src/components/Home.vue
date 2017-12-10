@@ -10,6 +10,7 @@
       <ul>
         <li><a href="javascript:;" v-on:click="queryOrder()">查询订单信息</a></li>
         <li><a href="javascript:;" v-on:click="queryInventories()">查看商品列表</a></li>
+        <li><a href="javascript:;" v-on:click="createNewOrder()">创建新订单</a></li>
       </ul>
     </div>
     <div v-else>
@@ -94,6 +95,41 @@ export default {
       }, (response) => {
         // 响应错误回调
         this.$data.msg = (response.status + ' --- ' + response.body + '---' + response.text())
+      })
+    },
+    createNewOrder () {
+      var orderJson = {
+        'consigneeAddress': {
+          'province': '上海市',
+          'city': '上海市',
+          'district': '普陀区',
+          'address': '曹杨路路1020号',
+          'consignee': '赵钱孙',
+          'phone': '13612348888'
+        },
+        'orderItems': [
+          {
+            'inventoryId': 1,
+            'inventoryName': 'iPhone 6',
+            'num': 7
+          },
+          {
+            'inventoryId': 12,
+            'inventoryName': '小米5',
+            'num': 5
+          },
+          {
+            'inventoryId': 23,
+            'inventoryName': '华为P9',
+            'num': 2
+          }
+        ]
+      }
+      console.log(orderJson)
+      this.$http.post('http://localhost:8011/orderservice/orders', orderJson).then((response) => {
+        console.log('ok')
+      }, (response) => {
+        console.log('error ' + response.status + ' ' + response.body)
       })
     },
     queryOrder () {

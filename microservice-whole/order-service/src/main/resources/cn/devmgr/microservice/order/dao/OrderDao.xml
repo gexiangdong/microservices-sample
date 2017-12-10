@@ -25,7 +25,7 @@
         where id=#{id}
     </select>
     <select id="selectOrderItem" resultType="cn.devmgr.microservice.order.domain.OrderItem">
-        select id, orderId, giftId, giftName, num, price, supplyPrice
+        select id, orderId, inventoryId, inventoryName, num, price, supplyPrice
         from order_detail
         where orderId=#{id}
     </select>
@@ -41,8 +41,8 @@
             values(#{order.consigneeAddress.consignee}, #{order.consigneeAddress.phone}, #{order.consigneeAddress.province}, 
             #{order.consigneeAddress.city}, #{order.consigneeAddress.district}, #{order.consigneeAddress.address},  #{order.orderDate}, 0);
         <foreach collection="order.orderItems" item="item" index="index" open="" separator=";"  close="">
-            insert into order_detail(orderId, giftId, giftName, num, price, supplyPrice)
-                values(currval(pg_get_serial_sequence('order_main', 'id')), #{item.giftId}, #{item.giftName}, #{item.num}, #{item.price}, #{item.supplyPrice});
+            insert into order_detail(orderId, inventoryId, inventoryName, num, price, supplyPrice)
+                values(currval(pg_get_serial_sequence('order_main', 'id')), #{item.inventoryId}, #{item.inventoryName}, #{item.num}, #{item.price}, #{item.supplyPrice});
         </foreach>
     </insert>
 </mapper>

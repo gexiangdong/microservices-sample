@@ -3,17 +3,25 @@ package cn.devmgr.microservice.order.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
 
 import cn.devmgr.microservice.order.dao.OrderDao;
 import cn.devmgr.microservice.order.domain.ConsigneeAddress;
@@ -27,13 +35,36 @@ import cn.devmgr.microservice.order.domain.OrderItem;
 public class OrderService {
 	private static final Log log = LogFactory.getLog(OrderService.class);
 
-	@Resource
+	@Autowired
 	private OrderDao orderDao;
 	
+    @Autowired
+    private LoadBalancerClient loadBalancer;
 	
 	@Transactional
-	public void append(Order order){
-		orderDao.insertOrder(order);
+	public boolean createNewOrder(Order order){
+	    if (order.getOrderItems() == null || order.getOrderItems().size() == 0){
+	        if(log.isWarnEnabled()) {
+	            log.warn("订单必须有明细条目。");
+	        }
+	        return false; 
+	    }
+	    
+	    ServiceInstance instance = loadBalancer.choose("stock-service");
+	    if(log.isTraceEnabled()) {
+	        log.trace("stock-service URI:" + instance.getUri() + " getMetadata:" + instance.getMetadata());
+	    }
+
+	    RestTemplate restTemplate = new RestTemplate();
+	    for(OrderItem item : order.getOrderItems()) {
+	        int inventoryId = item.getInventoryId();
+	        Map<String, Object> map = restTemplate.getForObject(instance.getUri() + "/stockservice/inventories/" + inventoryId, Map.class);
+	        if(log.isTraceEnabled()) {
+	            log.trace("#" + inventoryId + "  " + map);
+	        }
+	    }
+		// orderDao.insertOrder(order);
+		return true;
 	}
 	
 	
@@ -53,8 +84,8 @@ public class OrderService {
 		int max = 1 + rnd.nextInt(5);
 		for(int i=0; i<max; i++){
 			OrderItem item = new OrderItem();
-			item.setGiftId("EL" +  (rnd.nextInt() + 1000) % 1000);
-			item.setGiftName("苹果" + (rnd.nextInt(20) + 1) + "代");
+			item.setInventoryId((rnd.nextInt() + 1000) % 1000);
+			item.setInventoryName("苹果" + (rnd.nextInt(20) + 1) + "代");
 			item.setNum(rnd.nextInt(10) + 1);
 			item.setPrice(rnd.nextInt(1000));
 			item.setSupplyPrice(rnd.nextDouble() * 100);

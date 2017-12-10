@@ -11,11 +11,11 @@ public class OrderItem  implements Serializable{
 	private static final long serialVersionUID = -3975898975212474960L;
 	
 	@NotNull
-	private String giftId;
-	private String giftName;
+	private int inventoryId;
+	private String inventoryName;
 
-	@DecimalMin(value = "2", message = "购买数量不可以少于2个")
-    @DecimalMax(value = "5", message = "购买数量不可以多于5个")
+	@DecimalMin(value = "1", message = "购买数量不可以少于1个")
+    @DecimalMax(value = "50", message = "购买数量不可以多于50个")
 	private int num;
     
 	/**
@@ -31,17 +31,17 @@ public class OrderItem  implements Serializable{
 	private double supplyPrice;
 
     
-    public String getGiftId() {
-		return giftId;
+    public int getInventoryId() {
+		return inventoryId;
 	}
-	public void setGiftId(String giftId) {
-		this.giftId = giftId;
+	public void setInventoryId(int inventoryId) {
+		this.inventoryId = inventoryId;
 	}
-	public String getGiftName() {
-		return giftName;
+	public String getInventoryName() {
+		return inventoryName;
 	}
-	public void setGiftName(String giftName) {
-		this.giftName = giftName;
+	public void setInventoryName(String inventoryName) {
+		this.inventoryName = inventoryName;
 	}
 	public int getNum() {
 		return num;

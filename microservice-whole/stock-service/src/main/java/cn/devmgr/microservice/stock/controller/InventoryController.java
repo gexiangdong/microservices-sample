@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Collection;
 import java.security.Principal;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,5 +53,13 @@ public class InventoryController {
             }
         }
         return list;
+    }
+    
+    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+    public Inventory queryInventory(@PathVariable("id")  int id){
+        if(log.isTraceEnabled()) {
+            log.trace("query inventory #" + id);
+        }
+        return inventoryService.getInventory(id);
     }
 }
