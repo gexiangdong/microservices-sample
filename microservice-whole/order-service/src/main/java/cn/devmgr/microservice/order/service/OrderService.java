@@ -41,6 +41,10 @@ public class OrderService {
     @Autowired
     private LoadBalancerClient loadBalancer;
 	
+    @Autowired
+    private RestTemplate restTemplate;
+    
+    
 	@Transactional
 	public boolean createNewOrder(Order order){
 	    if (order.getOrderItems() == null || order.getOrderItems().size() == 0){
@@ -55,9 +59,9 @@ public class OrderService {
 	        log.trace("stock-service URI:" + instance.getUri() + " getMetadata:" + instance.getMetadata());
 	    }
 
-	    RestTemplate restTemplate = new RestTemplate();
 	    for(OrderItem item : order.getOrderItems()) {
 	        int inventoryId = item.getInventoryId();
+	        //restTemplate.
 	        Map<String, Object> map = restTemplate.getForObject(instance.getUri() + "/stockservice/inventories/" + inventoryId, Map.class);
 	        if(log.isTraceEnabled()) {
 	            log.trace("#" + inventoryId + "  " + map);

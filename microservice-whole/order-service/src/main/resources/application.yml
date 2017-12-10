@@ -57,3 +57,5 @@ security:
             Q2FVuBfH9g8V8qB5QmT2r8O9HGpLbyWOdw4ewAd8ki9pHHg69L6vZrLPPPx8fWiY
             vQIDAQAB
             -----END PUBLIC KEY-----
+        internalsecret: microserviceinternalsecrethere
+
