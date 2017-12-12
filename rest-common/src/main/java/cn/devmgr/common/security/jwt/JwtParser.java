@@ -26,6 +26,8 @@ import cn.devmgr.common.security.domain.User;
 
 @Component
 public class JwtParser {
+    public static final String INTERNAL_API = "internal_api";
+
     private final Log log = LogFactory.getLog(JwtParser.class);
     
     @Value("${security.oauth2.resource.jwt.keyValue}")
@@ -35,6 +37,9 @@ public class JwtParser {
     
     @Autowired
     private RolePermissionMappingService rolePermissionService;
+
+    @Autowired
+    private InternalJwt internalJwt;
     
     @PostConstruct
     private void init() {
@@ -66,21 +71,29 @@ public class JwtParser {
     
     public SecurityUser parseToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) publicKey, null);
-            JWTVerifier verifier = JWT.require(algorithm)
-                .acceptExpiresAt(5) 
-                .build(); //Reusable verifier instance
-            DecodedJWT jwt = verifier.verify(token);
-            int userId = jwt.getClaim("user_id").asInt();
-            String name = jwt.getClaim("name").asString();
-            String[] roles = jwt.getClaim("authorities").asArray(String.class);
-            String userName = jwt.getClaim("user_name").asString();
-            
-            User u = new User();
-            u.setId(userId);
-            u.setName(name);;
-            u.setUsername(userName);
-            
+            User u;
+            String[] roles;
+            if(token.startsWith(InternalJwt.INTERNALTOKENPREFIX)){
+                // 内部api之间互相调用
+                u = internalJwt.verify(token.substring(InternalJwt.INTERNALTOKENPREFIX.length()));
+                roles = new String[]{INTERNAL_API};
+            }else{
+                // 外部用户
+                Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) publicKey, null);
+                JWTVerifier verifier = JWT.require(algorithm)
+                    .acceptExpiresAt(5) 
+                    .build(); //Reusable verifier instance
+                DecodedJWT jwt = verifier.verify(token);
+                int userId = jwt.getClaim("user_id").asInt();
+                String name = jwt.getClaim("name").asString();
+                roles = jwt.getClaim("authorities").asArray(String.class);
+                String userName = jwt.getClaim("user_name").asString();
+                
+                u = new User();
+                u.setId(userId);
+                u.setName(name);;
+                u.setUsername(userName);
+            }
             //通过rolePermissionService完成角色到权限的转换。在认证服务器和JWT内传递的是角色。
             //角色对应的权限存储在各个独立的服务模块内；由服务模块自己完成转换，
             //在服务模块内使用的是permission

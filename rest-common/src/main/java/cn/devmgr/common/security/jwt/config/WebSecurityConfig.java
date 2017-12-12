@@ -97,7 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 SimpleClientHttpRequestFactory scrf = new SimpleClientHttpRequestFactory();
                 ClientHttpRequest chr = scrf.createRequest(uri, httpMethod);
                 
-                chr.getHeaders().add("Authorization", "Bearer INTERNAL:" + internalJwt.createInternalJwt());
+                chr.getHeaders().add("Authorization", "Bearer " + internalJwt.createInternalJwt());
                 return chr;
             }
             

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.devmgr.common.security.RolePermissionMappingService;
+import cn.devmgr.common.security.jwt.JwtParser;
 
 /**
  * 在open auth server端，user authorities里存储的是角色，
@@ -35,6 +36,13 @@ public class RolePermissionMappingServiceImpl implements RolePermissionMappingSe
         Collection<String> list = permissionDao.queryPermissionsByRole(role);
         if(list == null) {
             list = new ArrayList<String>();
+            if(role.equals(JwtParser.INTERNAL_API)){
+                //API 默认拥有所有权限
+                Collection<Permission> ps = permissionDao.getAllPermission();
+                for(Permission p : ps){
+                    list.add(p.getId());
+                }
+            }
         }
 
         //add role to the list
