@@ -68,7 +68,7 @@ public class InternalJwt {
         String userName = jwt.getClaim("user_name").asString();
         User u = new User();
         u.setId(userId);
-        u.setName(appId + "(" + userName + "/" + userId + ")");
+        u.setName(appId + "(" + userName + ":" + userId + ")");
         u.setUsername(appId + "[" + userId + "]");
         return u;
     }

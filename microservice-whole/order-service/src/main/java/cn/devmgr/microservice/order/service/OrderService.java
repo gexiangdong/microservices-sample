@@ -55,6 +55,9 @@ public class OrderService {
 	    }
 	    
 	    ServiceInstance instance = loadBalancer.choose("stock-service");
+	    if(instance == null){
+	    	throw new RuntimeException("无法找到stock-service实例，请确认服务是否启动。");
+	    }
 	    if(log.isTraceEnabled()) {
 	        log.trace("stock-service URI:" + instance.getUri() + " getMetadata:" + instance.getMetadata());
 	    }
@@ -66,8 +69,15 @@ public class OrderService {
 	        if(log.isTraceEnabled()) {
 	            log.trace("#" + inventoryId + "  " + map);
 	        }
+	        if(map != null){ 
+	        	item.setPrice((Double) map.get("price"));
+	        }else{
+	        	throw new RuntimeException("商品 #" + inventoryId + " " + item.getInventoryName() + " 不存在");
+	        }
 	    }
-		// orderDao.insertOrder(order);
+
+	    order.setOrderDate(new Date());
+		orderDao.insertOrder(order);
 		return true;
 	}
 	

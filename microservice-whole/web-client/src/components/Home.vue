@@ -103,9 +103,9 @@ export default {
           'province': '上海市',
           'city': '上海市',
           'district': '普陀区',
-          'address': '曹杨路路1020号',
-          'consignee': '赵钱孙',
-          'phone': '13612348888'
+          'address': '人民路9999号',
+          'consignee': '郝尤乾',
+          'phone': '19978786767'
         },
         'orderItems': [
           {
@@ -114,12 +114,12 @@ export default {
             'num': 7
           },
           {
-            'inventoryId': 12,
+            'inventoryId': 3,
             'inventoryName': '小米5',
             'num': 5
           },
           {
-            'inventoryId': 23,
+            'inventoryId': 4,
             'inventoryName': '华为P9',
             'num': 2
           }

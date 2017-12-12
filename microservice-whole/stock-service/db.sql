@@ -51,4 +51,9 @@ create table stock(
 
 insert into inventory (name, price, logo, pictures, status) values('iPhone X', 8999, 'iphon1.jpg', '{"iphone10.jpg", "iphone20.jpg"}', 0);
 insert into inventory (name, price, logo, pictures, status) values('Mac Book Pro', 18999, 'macpro.jpg', '{"macpro1.jpg", "macpro2.jpg", "macpro3.jpg"}', 0);
+insert into inventory (name, price, logo, pictures, status) values('Mac Air', 8999, 'iphon1.jpg', '{"iphone10.jpg", "iphone20.jpg"}', 0);
+insert into inventory (name, price, logo, pictures, status) values('Mac Pro', 18999, 'macpro.jpg', '{"macpro1.jpg", "macpro2.jpg", "macpro3.jpg"}', 0);
+insert into inventory (name, price, logo, pictures, status) values('iPhone 8', 8999, 'iphon1.jpg', '{"iphone10.jpg", "iphone20.jpg"}', 0);
+insert into inventory (name, price, logo, pictures, status) values('miPhone', 199, 'macpro.jpg', '{"macpro1.jpg", "macpro2.jpg", "macpro3.jpg"}', 0);
+
 

@@ -6,6 +6,7 @@ public class Inventory{
 
 	private String name;
 	private int id;
+	private double price;
 
 
 	public int getId(){
@@ -22,5 +23,13 @@ public class Inventory{
 
 	public void setName(String name){
 		this.name = name;
+	}
+
+	public double getPrice(){
+		return price;
+	}
+
+	public void setPrice(double price){
+		this.price = price;
 	}
 }
