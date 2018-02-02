@@ -52,7 +52,7 @@ create table oauth_approvals (
 
 /* 本例子增加的用户、组及权限部分 */
 create table users(
-    id serial primary key,
+    id char(10) primary key,
     username varchar(50) not null,
     name varchar(50) null,
     password varchar(50) null,
@@ -83,7 +83,7 @@ create table group_authorities (
 
 create table group_members (
     id serial primary key,
-    user_id int not null,
+    user_id char(10) not null,
     group_id varchar(20) not null,
     constraint fk_group_members_group foreign key(group_id) references groups(id),
     constraint fk_group_members_user foreign key(user_id) references users(id)
@@ -96,13 +96,13 @@ insert into oauth_client_details
             authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, 
             refresh_token_validity, additional_information, autoapprove) 
 values(
-    'rs1', 'oauth2-resource', 'read, trust', 'password,refresh_token',
-    'http://127.0.0.1?key=rs1', 'ROLE_CLIENT', '', null,
+    'rs1', 'oauth2-resource', 'read, trust', 'authorization_code,password,refresh_token',
+    '', 'ROLE_CLIENT', '', null,
     null, '{}', 'read,trust'
 );
 /** 用户 用户名 admin, 密码admpwd */
-insert into users(username, name, password) values('admin', 'System Administrator', 'admpwd');
-insert into users(username, name, password) values('asales', '销售员甲', 'thepwd');
+insert into users(id, username, name, password) values('00-00-0001', 'admin', 'System Administrator', md5('admpwd'));
+insert into users(id, username, name, password) values('00-01-0002', 'asales', '销售员甲', md5('thepwd'));
 insert into groups(id, group_name) values('admins', '管理员');
 insert into groups(id, group_name) values('managers', '经理组');
 insert into groups(id, group_name) values('sales', '销售组');

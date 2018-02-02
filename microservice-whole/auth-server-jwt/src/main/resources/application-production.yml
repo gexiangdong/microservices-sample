@@ -9,10 +9,10 @@ security:
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8000/eureka/ # 服务注册中心地址
+      defaultZone: http://serviceregistry:8000/eureka/ # 服务注册中心地址
   instance:
     preferIpAddress: true
-
+  
 spring:
   application:
     name: auth-server-jwt # 服务名称
@@ -24,7 +24,15 @@ spring:
     username: pgdbo
     password: sql
 
-
+logging:
+  file: /web/logs/auth2-server.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    cn.devmgr: TRACE
+    org.springframework: INFO
+  
 mybatis.configuration:
   map-underscore-to-camel-case: true
   default-fetch-size: 100

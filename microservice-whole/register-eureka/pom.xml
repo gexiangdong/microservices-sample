@@ -6,8 +6,8 @@
 	<groupId>cn.devmgr.microservice.register</groupId>
     <artifactId>register-eureka</artifactId>
     <name>Eureka Server Register</name>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<version>1.0</version>
+	<packaging>jar</packaging>
 
 	<description>spring boot eurka sample.</description>
 

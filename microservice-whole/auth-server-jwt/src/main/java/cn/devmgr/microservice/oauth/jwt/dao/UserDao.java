@@ -16,5 +16,5 @@ public interface UserDao {
 	 
 	 // @Select("select ga.authority from groups g join group_authorities ga on g.id=ga.group_id join group_members gm on g.id=gm.group_id where gm.user_id = #{userId}")
 	 @Select("select group_id from group_members where user_id = #{userId}")
-	 List<String> findUserAuthorities(@Param("userId") int userId);
+	 List<String> findUserAuthorities(@Param("userId") String userId);
 }

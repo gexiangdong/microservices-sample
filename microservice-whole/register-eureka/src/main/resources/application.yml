@@ -6,7 +6,7 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
     service-url:
-      defaultZone: http://localhost:8000/eureka/ # 服务注册中心地址
+      defaultZone: http://serviceregistry:8000/eureka/ # 服务注册中心地址
   server:
     enableSelfPreservation: false
   instance:
