@@ -41,7 +41,7 @@ public class InternalJwt {
     
     public String createInternalJwt() {
         JWTCreator.Builder builder = JWT.create();
-        int userId = 0;
+        String userId = null;
         String userName = "";
      
         try {
@@ -63,7 +63,7 @@ public class InternalJwt {
     public User verify(String token) {
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT jwt = verifier.verify(token);
-        int userId = jwt.getClaim("user_id").asInt();
+        String userId = jwt.getClaim("user_id").asString();
         String appId = jwt.getClaim("app_id").asString();
         String userName = jwt.getClaim("user_name").asString();
         User u = new User();

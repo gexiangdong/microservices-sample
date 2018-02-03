@@ -55,7 +55,7 @@ create table users(
     id char(10) primary key,
     username varchar(50) not null,
     name varchar(50) null,
-    password varchar(50) null,
+    password varchar(100) null,
     head_image varchar(50) null,
     email varchar(100) null,
     phone varchar(20) null,
@@ -100,9 +100,10 @@ values(
     '', 'ROLE_CLIENT', '', null,
     null, '{}', 'read,trust'
 );
-/** 用户 用户名 admin, 密码admpwd */
-insert into users(id, username, name, password) values('00-00-0001', 'admin', 'System Administrator', md5('admpwd'));
-insert into users(id, username, name, password) values('00-01-0002', 'asales', '销售员甲', md5('thepwd'));
+/** 用户 用户名 admin, 密码admpwd (admpwd的密文是$2a$10$3JzxlSNU6ih.w6TUZJEmO.Icxga7i9bCbofNbR3Qd2AWrNK6nswfa) */
+insert into users(id, username, name, password) values('00-00-0001', 'admin', 'System Administrator', '$2a$10$3JzxlSNU6ih.w6TUZJEmO.Icxga7i9bCbofNbR3Qd2AWrNK6nswfa');
+/** asales密码是thepwd */
+insert into users(id, username, name, password) values('00-01-0002', 'asales', '销售员甲', '$2a$10$e48FCAP2KrXXqXXt/6f/W.i/j7EcULM3LW7mHrQYFarMTCQDSsvl.');
 insert into groups(id, group_name) values('admins', '管理员');
 insert into groups(id, group_name) values('managers', '经理组');
 insert into groups(id, group_name) values('sales', '销售组');

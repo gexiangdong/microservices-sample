@@ -84,7 +84,7 @@ public class JwtParser {
                     .acceptExpiresAt(5) 
                     .build(); //Reusable verifier instance
                 DecodedJWT jwt = verifier.verify(token);
-                int userId = jwt.getClaim("user_id").asInt();
+                String userId = jwt.getClaim("user_id").asString();
                 String name = jwt.getClaim("name").asString();
                 roles = jwt.getClaim("authorities").asArray(String.class);
                 String userName = jwt.getClaim("user_name").asString();
